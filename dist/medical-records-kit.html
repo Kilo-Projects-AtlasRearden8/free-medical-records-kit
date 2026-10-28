@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Medical Records Kit — Asdale Dynamics, LLC</title>
+<style>
+  * { box-sizing: border-box; }
+
+  html { font-size: 11pt; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    color: #1f2937;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background: #f3f4f6;
+  }
+
+  .page {
+    width: 210mm;
+    margin: 0 auto 18mm auto;
+    background: white;
+    padding: 16mm 15mm 18mm 15mm;
+    box-shadow: 0 0 6px rgba(0,0,0,0.08);
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  .page.kit-cover { background: #ffffff; }
+
+  h1 {
+    font-size: 26pt;
+    color: #0f3d5c;
+    margin: 0 0 4mm 0;
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #0f3d5c;
+    margin: 7mm 0 2.5mm 0;
+    border-bottom: 1.5px solid #0f3d5c;
+    padding-bottom: 1.2mm;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11.5pt;
+    color: #0f3d5c;
+    margin: 5mm 0 2mm 0;
+    page-break-after: avoid;
+  }
+  p { margin: 0 0 2.5mm 0; }
+  ul { margin: 0 0 2.5mm 0; padding-left: 5mm; }
+  li { margin-bottom: 1.2mm; }
+
+  .cover-title {
+    text-align: center;
+    padding-top: 20mm;
+  }
+  .cover-title h1 { font-size: 30pt; margin-bottom: 3mm; }
+  .cover-sub {
+    font-size: 12.5pt;
+    color: #4b5563;
+    text-align: center;
+    margin-bottom: 12mm;
+  }
+  .cover-meta {
+    max-width: 140mm;
+    margin: 0 auto;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    padding: 5mm;
+    border-radius: 3mm;
+  }
+
+  .disclaimer {
+    font-size: 8.5pt;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 8mm;
+    padding-top: 3mm;
+    page-break-after: avoid;
+  }
+
+  /* Fillable fields */
+  .field { margin: 0 0 2mm 0; }
+  .field label {
+    display: inline-block;
+    font-size: 9pt;
+    font-weight: 700;
+    margin-right: 2mm;
+    color: #374151;
+  }
+  .fillable {
+    border-bottom: 1px solid #9ca3af;
+    padding: 0.6mm 0;
+    display: inline-block;
+    min-width: 30mm;
+    position: relative;
+  }
+  .fillable input {
+    border: none;
+    background: transparent;
+    font: inherit;
+    width: 100%;
+    outline: none;
+    autocomplete: off;
+  }
+  .fillable input:focus { background: #fef3c7; }
+  .fillable.inline { display: inline-block; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2mm 0 4mm 0;
+    font-size: 9.5pt;
+    page-break-inside: auto;
+  }
+  th, td {
+    border: 0.6px solid #9ca3af;
+    padding: 2mm 1.5mm;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #eef2f7;
+    color: #0f3d5c;
+    font-weight: 700;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  tr.row-blank td { height: 7mm; }
+  tr { page-break-inside: avoid; }
+  td.blank-row { height: 7mm; }
+
+  .two-col { column-count: 2; column-gap: 8mm; }
+  .no-break { page-break-inside: avoid; }
+
+  .letter {
+    border: 1px solid #d1d5db;
+    background: #fdfdfd;
+    padding: 5mm;
+    margin-bottom: 5mm;
+    page-break-inside: avoid;
+  }
+  .letter p { margin-bottom: 3mm; }
+  .letter p.blanks { margin-bottom: 1.5mm; }
+
+  .form-hint {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 1mm;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; padding: 0; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      width: 100%;
+      min-height: auto;
+    }
+    .no-print { display: none !important; }
+    .cover-title { padding-top: 8mm; }
+    a { color: inherit; text-decoration: none; }
+    td.blank-row { height: 6.5mm; }
+    /* Make fillable fields visible as writeable boxes on paper */
+    .fillable {
+      border: 1px solid #000 !important;
+      border-bottom: 1px solid #000 !important;
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .fillable input {
+      border: 1px solid #000 !important;
+      color: #000 !important;
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .fillable input:focus { background: #fff !important; }
+  }
+
+  /* Screen-only controls */
+  .toolbar {
+    position: fixed;
+    top: 8px; left: 8px; right: 8px;
+    background: #0f3d5c;
+    padding: 3mm 5mm;
+    border-radius: 3mm;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  @media print { .toolbar { display: none; } }
+  .toolbar .btn {
+    background: #ffffff;
+    color: #0f3d5c;
+    border: none;
+    padding: 2mm 4mm;
+    font-size: 10pt;
+    font-weight: 700;
+    border-radius: 2mm;
+    cursor: pointer;
+    margin-right: 3mm;
+  }
+  .toolbar .btn:hover { background: #e5edf3; }
+  .toolbar .btn.print { background: #11633a; color: #fff; }
+  .toolbar .btn.print:hover { background: #0f5a34; }
+  .toolbar span {
+    color: #e5edf3;
+    font-size: 9pt;
+    margin-left: 6mm;
+    vertical-align: middle;
+  }
+  @media screen { body { padding-top: 14mm; } }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn print" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn" onclick="window.location.reload()">Clear all fields</button>
+  <span>Medical Records Kit &bull; Asdale Dynamics, LLC &bull; Education only — not medical advice</span>
+</div>
+
+<div class="page kit-cover">
+  <div class="cover-title">
+    <h1>My Medical Records Kit</h1>
+    <div class="cover-sub">Provider log &bull; Medication list &bull; Immunization tracker &bull; Appointment history &bull; Records-request letters</div>
+    <div class="cover-meta">
+      <div class="field"><label for="f-cover-name">Your name:</label> <span class="fillable inline"><input type="text" id="f-cover-name" autocomplete="off"></span></div>
+      <div class="field"><label for="f-cover-dob">Date of birth:</label> <span class="fillable inline"><input type="text" id="f-cover-dob" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-cover-date-started">Date started:</label> <span class="fillable inline"><input type="text" id="f-cover-date-started" autocomplete="off"></span></div>
+      <div class="field"><label for="f-cover-emergency">Emergency contact:</label> <span class="fillable inline"><input type="text" id="f-cover-emergency" autocomplete="off"></span></div>
+      <div class="field"><label for="f-cover-pharmacy">Primary pharmacy:</label> <span class="fillable inline"><input type="text" id="f-cover-pharmacy" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-cover-pharm-phone">Phone:</label> <span class="fillable inline"><input type="text" id="f-cover-pharm-phone" autocomplete="off"></span></div>
+    </div>
+    <div class="disclaimer">
+      Fill in the fields on screen, then print (Ctrl+P / Cmd+P) or save as PDF. Everything stays on your computer — nothing is uploaded, and no account is needed.<br><br>
+      <strong>Education only — not medical advice.</strong> This kit helps you organize paperwork. It does not diagnose, treat, or replace care from a licensed clinician.<br>
+      Made by <strong>Asdale Dynamics, LLC</strong>. Copyright (c) 2026 Asdale Dynamics, LLC. MIT License.
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <h2>1. Provider Log</h2>
+  <p>Doctors, specialists, dentists, pharmacies, labs, and care managers. Add a new provider here when you first see them.</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:18%">Provider / facility</th>
+        <th style="width:16%">Type</th>
+        <th style="width:14%">Contact name</th>
+        <th style="width:12%">Phone</th>
+        <th style="width:18%">Address</th>
+        <th style="width:12%">Patient portal / login</th>
+        <th style="width:6%">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-blank"><td class="blank-row">1</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">2</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">3</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">4</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">5</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">6</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">7</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">8</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">9</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">10</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+    </tbody>
+  </table>
+  <div class="field"><label for="f-pl-pharmacy">Preferred pharmacy:</label> <span class="fillable inline"><input type="text" id="f-pl-pharmacy" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-pl-pharm-phone">Phone:</label> <span class="fillable inline"><input type="text" id="f-pl-pharm-phone" autocomplete="off"></span></div>
+  <div class="field"><label for="f-pl-cm">Care manager / case worker:</label> <span class="fillable inline"><input type="text" id="f-pl-cm" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-pl-cm-phone">Phone:</label> <span class="fillable inline"><input type="text" id="f-pl-cm-phone" autocomplete="off"></span></div>
+  <p class="form-hint">Tip: bring this list to every appointment so every provider can see who else is on your care team.</p>
+</div>
+
+<div class="page">
+  <h2>2. Medication List</h2>
+  <p>Prescriptions, over-the-counter drugs, vitamins, and supplements. Update it whenever a medicine starts, stops, or changes dose. Bring it to every appointment.</p>
+  <div class="field"><label for="f-ml-name">Your name:</label> <span class="fillable inline"><input type="text" id="f-ml-name" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-ml-allergies">Allergies:</label> <span class="fillable inline"><input type="text" id="f-ml-allergies" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-ml-date-updated">Date updated:</label> <span class="fillable inline"><input type="text" id="f-ml-date-updated" autocomplete="off"></span></div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:14%">Medicine name</th>
+        <th style="width:11%">Strength / dose</th>
+        <th style="width:15%">How often / when</th>
+        <th style="width:13%">Prescriber</th>
+        <th style="width:13%">Pharmacy</th>
+        <th style="width:9%">Start date</th>
+        <th style="width:9%">Stop date</th>
+        <th style="width:12%">Reason / notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-blank"><td class="blank-row">1</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">2</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">3</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">4</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">5</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">6</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">7</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">8</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">9</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">10</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li>Copy the name and strength straight from the label — include inhalers, eye drops, creams, patches, and herbal supplements.</li>
+    <li>Cross out old rows instead of erasing them; you may need the history later.</li>
+    <li>Questions for your pharmacist or provider: Can I take this with my other medicines? What side effects should I watch for? What do I do if I miss a dose?</li>
+  </ul>
+  <p class="form-hint"><strong>Never start, stop, or change a dose without talking to your prescriber.</strong> Education only — not medical advice.</p>
+</div>
+
+<div class="page">
+  <h2>3. Immunization Tracker</h2>
+  <p>Record vaccines so you and your care team know what you've had and when you're due for more. Ask your provider or pharmacy for a printout of your immunization record to fill this in accurately.</p>
+  <div class="field"><label for="f-imm-name">Your name:</label> <span class="fillable inline"><input type="text" id="f-imm-name" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-imm-dob">Date of birth:</label> <span class="fillable inline"><input type="text" id="f-imm-dob" autocomplete="off"></span></div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:20%">Vaccine</th>
+        <th style="width:11%">Date given</th>
+        <th style="width:13%">Dose / series #</th>
+        <th style="width:18%">Provider or clinic</th>
+        <th style="width:18%">Reaction or notes</th>
+        <th style="width:12%">Next dose due</th>
+        <th style="width:8%">Done</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-blank"><td>Flu</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>COVID-19</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>Tdap / Td (tetanus, diphtheria, pertussis)</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>Shingles (Shingrix)</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>Pneumococcal (pneumonia)</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>Hepatitis B</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>HPV</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>MMR</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td>Varicella (chickenpox)</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="fillable inline"><input type="text" id="f-imm-other1" autocomplete="off" aria-label="Other vaccine name"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="fillable inline"><input type="text" id="f-imm-other2" autocomplete="off" aria-label="Other vaccine name"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+    </tbody>
+  </table>
+  <p class="form-hint">Common adult vaccines to ask about: flu (yearly), COVID-19, Tdap/Td booster (every 10 years), shingles (age 50+), pneumococcal (age 65+, or younger with certain conditions). Vaccine timing depends on your age, health history, and risk factors — talk to your care team.</p>
+</div>
+
+<div class="page">
+  <h2>4. Appointment History</h2>
+  <p>A running list of visits so you can spot patterns, track follow-ups, and remember what was discussed.</p>
+  <div class="field"><label for="f-appt-name">Your name:</label> <span class="fillable inline"><input type="text" id="f-appt-name" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-appt-date-started">Date started:</label> <span class="fillable inline"><input type="text" id="f-appt-date-started" autocomplete="off"></span></div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:10%">Date</th>
+        <th style="width:16%">Provider / facility</th>
+        <th style="width:12%">Type of visit</th>
+        <th style="width:18%">Reason for visit</th>
+        <th style="width:13%">Follow-up needed</th>
+        <th style="width:11%">Follow-up date</th>
+        <th style="width:16%">Referrals or orders</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-blank"><td class="blank-row">1</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">2</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">3</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">4</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">5</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">6</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">7</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">8</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">9</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+      <tr class="row-blank"><td class="blank-row">10</td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td><td class="blank-row"></td></tr>
+    </tbody>
+  </table>
+  <p class="form-hint">After each visit, jot down: what the provider said, new medicines or changes, tests ordered and when results are due, and your next appointment date.</p>
+</div>
+
+<div class="page">
+  <h2>5. Request-Records Letters</h2>
+  <p>You generally have the right to see and get copies of your own medical records under HIPAA. Fill in the blanks, keep copies of everything you send, and send requests by certified mail or through the patient portal so you have proof of delivery. Providers may charge a reasonable copying fee and often have up to 30 days to respond.</p>
+
+  <div class="letter">
+    <h3 style="margin-top:0;">Letter 1 — Request my complete medical records</h3>
+    <div class="field blanks"><label for="f-l1-name">Your name:</label> <span class="fillable inline"><input type="text" id="f-l1-name" autocomplete="off"></span></div>
+    <div class="field blanks"><label for="f-l1-street">Street address:</label> <span class="fillable inline"><input type="text" id="f-l1-street" autocomplete="off"></span></div>
+    <div class="field blanks"><label for="f-l1-city">City, State ZIP:</label> <span class="fillable inline"><input type="text" id="f-l1-city" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-l1-phone">Phone:</label> <span class="fillable inline"><input type="text" id="f-l1-phone" autocomplete="off"></span> &nbsp;&nbsp; <label for="f-l1-email">Email:</label> <span class="fillable inline"><input type="text" id="f-l1-email" autocomplete="off"></span></div>
+    <div class="field blanks"><label for="f-l1-date">Date:</label> <span class="fillable inline"><input type="text" id="f-l1-date" autocomplete="off"></span></div>
+    <p><strong>[Provider or facility name]</strong><br>
+    Attn: Medical Records / Health Information Management<br>
+    <span class="fillable inline"><input type="text" id="f-l1-prov-street" autocomplete="off" aria-label="Provider street address"></span> (street address)<br>
+    <span class="fillable inline"><input type="text" id="f-l1-prov-city" autocomplete="off" aria-label="Provider city, state ZIP"></span> (city, state ZIP)</p>
+    <p><strong>Re:</strong> Request for medical records &nbsp;&nbsp; <strong>Patient:</strong> <span class="fillable inline"><input type="text" id="f-l1-patient" autocomplete="off" aria-label="Patient name"></span> &nbsp;&nbsp; <strong>Date of birth:</strong> <span class="fillable inline"><input type="text" id="f-l1-patient-dob" autocomplete="off" aria-label="Patient date of birth"></span><br>
+    <strong>Medical record number (if known):</strong> <span class="fillable inline"><input type="text" id="f-l1-mrn" autocomplete="off" aria-label="Medical record number"></span></p>
+    <p>To Whom It May Concern:</p>
+    <p>I am requesting a complete copy of my medical records, including office visit notes, test results, imaging reports, immunization records, medication lists, and discharge summaries, from <span class="fillable inline"><input type="text" id="f-l1-daterange" autocomplete="off" aria-label="Date range"></span> (date range).</p>
+    <p>Please send the records to:<br>
+    <span class="fillable inline"><input type="text" id="f-l1-send-name" autocomplete="off" aria-label="Recipient name"></span> (your name)<br>
+    <span class="fillable inline"><input type="text" id="f-l1-send-street" autocomplete="off" aria-label="Recipient street address"></span> (street address)<br>
+    <span class="fillable inline"><input type="text" id="f-l1-send-city" autocomplete="off" aria-label="Recipient city, state ZIP"></span> (city, state ZIP)<br>
+    or through my patient portal: <span class="fillable inline"><input type="text" id="f-l1-portal" autocomplete="off" aria-label="Patient portal username or email"></span></p>
+    <p>If you require a signed authorization form, please let me know and I will complete and return it promptly. Please contact me at <span class="fillable inline"><input type="text" id="f-l1-contact" autocomplete="off" aria-label="Contact phone number"></span> with any questions or if there are fees associated with this request.</p>
+    <p>Thank you for your help.</p>
+    <p>Sincerely,<br><br><br>
+    ________________________________ (your signature)<br>
+    <span class="fillable inline"><input type="text" id="f-l1-signature" autocomplete="off" aria-label="Printed name"></span> (your printed name)</p>
+    <p class="form-hint">Send copies of everything you mail, and keep proof of delivery.</p>
+  </div>
+
+  <div class="letter">
+    <h3 style="margin-top:0;">Letter 2 — Request records from a specific visit or date range</h3>
+    <p>Use the same format as Letter 1, but open with:</p>
+    <p style="background:#f9fafb;border:1px solid #e5e7eb;padding:3mm;border-radius:2mm;">"I am requesting copies of my medical records related to treatment for <span class="fillable inline"><input type="text" id="f-l2-condition" autocomplete="off" aria-label="Condition or reason for treatment"></span> between <span class="fillable inline"><input type="text" id="f-l2-date1" autocomplete="off" aria-label="Start date"></span> and <span class="fillable inline"><input type="text" id="f-l2-date2" autocomplete="off" aria-label="End date"></span>, including <span class="fillable inline"><input type="text" id="f-l2-include" autocomplete="off" aria-label="Records to include"></span>."</p>
+  </div>
+
+  <div class="letter">
+    <h3 style="margin-top:0;">Letter 3 — Request records be sent to another provider</h3>
+    <p>Use the same format as Letter 1, but send the records directly to:</p>
+    <p><strong>[Provider name]</strong><br>
+    <span class="fillable inline"><input type="text" id="f-l3-street" autocomplete="off" aria-label="Provider street address"></span> (street address)<br>
+    <span class="fillable inline"><input type="text" id="f-l3-city" autocomplete="off" aria-label="Provider city, state ZIP"></span> (city, state ZIP)<br>
+    Fax: <span class="fillable inline"><input type="text" id="f-l3-fax" autocomplete="off" aria-label="Fax number"></span></p>
+    <p>I authorize the release of my records to this provider for continuity of care.<br>
+    <strong>Signature:</strong> <span class="fillable inline"><input type="text" id="f-l3-signature" autocomplete="off" aria-label="Signature"></span> &nbsp;&nbsp; <strong>Date:</strong> <span class="fillable inline"><input type="text" id="f-l3-date" autocomplete="off" aria-label="Date"></span></p>
+  </div>
+
+  <h3>Tips for requesting records</h3>
+  <ul>
+    <li>Include your full name, date of birth, and dates of treatment so records are easy to locate.</li>
+    <li>Ask for records in the format you want (paper or electronic). Electronic copies are often free or cheaper.</li>
+    <li>If a provider denies your request, you can ask for the reason in writing and file a complaint with the U.S. Department of Health and Human Services Office for Civil Rights at hhs.gov/ocr.</li>
+    <li>To request records for someone else (a child, parent, or person you care for), you'll usually need proof of guardianship or a signed authorization from them.</li>
+  </ul>
+  <p class="disclaimer">Education only — not legal or medical advice. Records-request rights vary by situation and state. Asdale Dynamics, LLC is not a law firm or healthcare provider.</p>
+</div>
+
+</body>
+</html>
